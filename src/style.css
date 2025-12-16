@@ -1,0 +1,40 @@
+/* Styles pour le composant CurrentTime */
+.current-time-display {
+  display: flex;
+  flex-direction: column; /* Pour afficher la date au-dessus de l'heure */
+  align-items: flex-end; /* Pour aligner le tout à droite */
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; /* Une police plus moderne */
+  color: #333; /* Couleur de texte sombre */
+  margin-left: 20px; /* Espace entre le titre et l'heure */
+}
+
+.date-text {
+  font-size: 0.9em;
+  color: #777; /* Plus discret */
+  text-transform: capitalize; /* Pour que le jour commence par une majuscule */
+}
+
+.time-text {
+  font-size: 1.8em; /* Grande taille pour l'heure */
+  font-weight: 600; /* Semi-gras */
+  letter-spacing: 1px; /* Espacement pour l'effet 'digital' */
+  padding: 0;
+  margin-top: -5px; /* Pour rapprocher l'heure de la date */
+}
+
+/* Ajustement du conteneur du centre pour aligner l'icône, le titre et l'heure */
+.top-row {
+  display: flex;
+  align-items: center;
+  gap: 15px; /* Espacement entre les éléments */
+}
+
+/* Mise à jour du style pour l'en-tête global */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 40px;
+  background-color: #f8f8f8; /* Un fond clair */
+  border-bottom: 2px solid #eee;
+}

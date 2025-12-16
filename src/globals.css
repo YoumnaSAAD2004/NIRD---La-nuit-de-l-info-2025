@@ -1,0 +1,734 @@
+/* --- RESET SIMPLE --- */
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+* {
+  box-sizing: border-box;
+  font-family: 'VT323', monospace !important;
+  font-size: 22px;
+  letter-spacing: 1px;
+}
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+    sans-serif;
+  background: transparent;
+  color: #f9fafb;
+    font-size: 14px;
+  line-height: 1.6;
+}
+
+
+/* --- STRUCTURE GLOBALE --- */
+.app-shell {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- HEADER / FOOTER --- */
+.app-header {
+  background: rgba(15, 23, 42, 0.95);
+  color: #e5e7eb;
+  padding: 14px 32px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+.app-header span.icon {
+  font-size: 22px;
+}
+
+.app-footer {
+  background: rgba(15, 23, 42, 0.95);
+  color: #9ca3af;
+  padding: 10px 24px;
+  font-size: 13px;
+  text-align: center;
+  border-top: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+/* --- FOND LASERS --- */
+.laser-bg {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -1;
+}
+
+
+/* --- ANIMATION DE FOND CLEAN --- */
+.animated-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  background: radial-gradient(circle at center, #0a0f1f 0%, #020617 70%);
+  animation: neonPulse 8s infinite alternate ease-in-out;
+}
+
+@keyframes neonPulse {
+  0% {
+    filter: brightness(0.8) saturate(1.1);
+  }
+  100% {
+    filter: brightness(1.1) saturate(1.4);
+  }
+}
+
+
+/* --- ZONE DE JEU CENTRÉE --- */
+.game-container {
+  flex: 1; /* prend tout l’espace */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem; 
+}
+
+
+.game-card {
+  max-width: 900px;
+  width: 100%;
+  background: radial-gradient(circle at top left,
+      rgba(56, 189, 248, 0.06),
+      rgba(15, 23, 42, 0.96));
+  border-radius: 24px;
+  padding: 32px 32px 28px;
+  text-align: center;
+  border: 1px solid rgba(94, 234, 212, 0.7);
+  box-shadow: 0 0 40px rgba(56, 189, 248, 0.45);
+  backdrop-filter: blur(14px);
+}
+
+/* TITRES / TEXTES */
+.game-card h1 {
+  font-size: clamp(2.1rem, 3vw, 2.7rem);
+  margin-bottom: 10px;
+}
+
+.game-card h2 {
+  font-size: 1.4rem;
+  margin-bottom: 8px;
+}
+
+.game-subtitle {
+  font-size: 0.98rem;
+  color: #e5e7eb;
+  margin-top: 4px;
+}
+
+/* --- BOUTONS NÉON / RÉPONSES --- */
+.primary-btn {
+  padding: 14px 30px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 1.05rem;
+  background: radial-gradient(circle at top left, #22c55e, #15803d);
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  box-shadow: 0 0 18px rgba(34, 197, 94, 0.9);
+  transition: transform 0.2s, box-shadow 0.2s, filter 0.2s;
+}
+
+.primary-btn:hover {
+  transform: translateY(-2px) scale(1.03);
+  box-shadow: 0 0 26px rgba(34, 197, 94, 1);
+  filter: brightness(1.08);
+}
+
+/* boutons de choix type “bulles” */
+.choices {
+  margin-top: 26px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+}
+
+.choice-bubble {
+  min-width: 220px;
+  max-width: 280px;
+  padding: 14px 18px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(148, 163, 184, 0.9);
+  color: #e5e7eb;
+  cursor: pointer;
+  font-size: 0.98rem;
+  box-shadow: 0 0 0 rgba(148, 163, 184, 0.5);
+  transition: transform 0.18s, box-shadow 0.2s, border-color 0.2s,
+    background 0.2s;
+}
+
+.choice-bubble:hover {
+  transform: translateY(-3px);
+  border-color: rgba(56, 189, 248, 1);
+  box-shadow: 0 0 18px rgba(56, 189, 248, 0.8);
+  background: radial-gradient(circle at top,
+      rgba(15, 23, 42, 1),
+      rgba(15, 23, 42, 0.9));
+}
+
+/* petit badge en haut de carte */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  background: rgba(15, 118, 110, 0.6);
+  color: #a5f3fc;
+  margin-bottom: 10px;
+}
+.bonasavoir-popup {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  animation: fadeInOut 2.5s ease forwards;
+  z-index: 9999;
+}
+
+.bonasavoir-content {
+  background: rgba(56, 189, 248, 0.15);
+  border: 1px solid rgba(94, 234, 212, 0.5);
+  padding: 14px 20px;
+  border-radius: 12px;
+  color: #e0faff;
+  font-size: 0.95rem;
+  box-shadow: 0 0 12px rgba(56, 189, 248, 0.4);
+  backdrop-filter: blur(12px);
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-10px); }
+  10% { opacity: 1; transform: translateY(0); }
+  90% { opacity: 1; }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+/* --- Animation du texte d'indice --- */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.hintText {
+  animation: fadeUp 0.5s ease;
+}
+
+/* --- Bouton indice : pulse + glow neon -- */
+.hintButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 0;
+  opacity: 0.7;
+  animation: pulse 1.6s infinite ease-in-out;
+  transition: filter 0.25s ease, opacity 0.25s ease;
+}
+
+.hintButton:hover {
+  opacity: 1;
+  filter: drop-shadow(0 0 6px cyan);
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.7; }
+  50% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.7; }
+}
+.hintWord {
+  font-size: 12px;
+  color: #cfffff;
+  opacity: 0.9;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  text-shadow: 
+    0 0 4px rgba(0,255,255,0.9),
+    0 0 8px rgba(0,255,255,0.7);
+  transition: opacity 0.25s ease, filter 0.25s ease;
+}
+
+.hintWord:hover {
+  opacity: 1;
+  filter: drop-shadow(0 0 6px cyan);
+}
+.hintButton {
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  animation: pulse 1.8s infinite ease-in-out;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 200, 0.7));
+}
+
+.hintWord {
+  font-size: 14px;
+  cursor: pointer;
+  color: #aeeaff;
+  text-shadow: 0 0 4px cyan;
+}
+
+.hintWord:hover {
+  color: white;
+  text-shadow: 0 0 8px cyan;
+}
+
+.hintText {
+  text-align: center;
+  width: 90%;
+  margin: auto;
+  margin-top: 6px;
+  color: #dff9ff;
+  font-size: 15px;
+  font-style: italic;
+}
+
+/* Animation du bouton 💡 */
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+.final-warning {
+  font-size: 2rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  color: #ff4747;
+  text-shadow: 0 0 15px rgba(255, 80, 80, 0.7),
+               0 0 25px rgba(255, 0, 0, 0.4);
+  animation: pulse 1.6s infinite ease-in-out;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.06); opacity: 0.85; }
+  100% { transform: scale(1); opacity: 1; }
+}
+.final-screen {
+  text-align: center;
+  max-width: 900px;
+  margin: auto;
+  padding: 40px;
+}
+
+.final-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #a5f3fc;
+  text-shadow: 0 0 18px rgba(94, 234, 212, 0.8);
+  animation: fadeUp 0.8s ease-out;
+}
+
+.final-text {
+  margin-top: 18px;
+  font-size: 1.1rem;
+  color: #e5e7eb;
+  line-height: 1.6;
+  opacity: 0;
+  animation: fadeUp 1s ease-out forwards;
+  animation-delay: 0.4s;
+}
+
+.see-more-btn {
+  margin-top: 28px;
+  padding: 16px 32px;
+  font-size: 1.1rem;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  background: radial-gradient(circle at top left, #0ea5e9, #0369a1);
+  box-shadow: 0 0 18px rgba(14, 165, 233, 0.8);
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+
+.see-more-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 26px rgba(14, 165, 233, 1);
+}
+.explication-screen {
+  max-width: 900px;
+  margin: auto;
+  padding: 40px;
+  text-align: left;
+  color: #e0faff;
+}
+
+.explication-title {
+  font-size: 2.4rem;
+  margin-bottom: 20px;
+  color: #67e8f9;
+  text-shadow: 0 0 14px rgba(56, 189, 248, 0.7);
+}
+
+.explication-paragraph {
+  font-size: 1.1rem;
+  line-height: 1.7;
+}
+
+.explication-screen ul {
+  margin-top: 12px;
+  list-style: none;
+  padding-left: 0;
+}
+
+.explication-screen li {
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+.laser-bg {
+  display: none !important;
+}
+.animated-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0; /* visible derrière l'app */
+  background: radial-gradient(circle at center, #0a0f1f 0%, #020617 70%);
+  animation: neonPulse 8s infinite alternate ease-in-out;
+}
+
+.app-shell {
+  position: relative;
+  z-index: 1;
+}
+/* --- ANIMATION CYBER GRID --- */
+.background-grid {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh; /* couvre tout l'écran en continu */
+  z-index: -1;
+
+  /* Grille lumineuse */
+  background-image:
+    linear-gradient(rgba(170, 220, 255, 0.45) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(170, 220, 255, 0.45) 1px, transparent 1px);
+
+  background-size: 55px 55px;
+
+  /* Fond bleu nuit dark */
+  background-color: #030817;
+
+  /* Glow + luminosité */
+  filter: brightness(1.1) saturate(1.2);
+
+  opacity: 0.9;
+
+  /* Animation lente */
+  animation: gridMove 22s linear infinite;
+
+  /* Empêche la grille d’être coupée */
+  pointer-events: none;
+}
+
+@keyframes gridMove {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: -300px -300px;
+  }
+}
+/* --- HEADER PREMIUM ANIMÉ --- */
+
+.app-header {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 14px 32px;
+  height: 70px;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 25, 50, 0.92),
+    rgba(5, 15, 35, 0.92)
+  );
+
+  border-bottom: 1px solid rgba(120, 180, 255, 0.3);
+
+  box-shadow: 0 8px 25px rgba(80, 140, 255, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+
+/* --- LOGO GIF --- */
+
+.header-logo {
+  width: 48px;
+  height: 48px;
+  object-fit: contain;
+  margin-right: 12px;
+  filter: drop-shadow(0 0 4px rgba(120, 200, 255, 0.7));
+}
+
+
+/* --- TEXTE CYBER --- */
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-title {
+  font-size: 1.4rem;
+  color: #d6edff;
+  text-shadow:
+    0 0 4px rgba(150, 200, 255, 0.7),
+    0 0 12px rgba(100, 160, 255, 0.5);
+  letter-spacing: 1px;
+}
+
+
+/* --- BARRE ANIMÉE NÉON SOUS LE HEADER --- */
+
+.header-animated-bar {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    #5cc8ff,
+    #4cd4ff,
+    transparent
+  );
+
+  animation: headerGlow 4s infinite ease-in-out;
+  opacity: 0.9;
+}
+
+@keyframes headerGlow {
+  0% { filter: brightness(0.6); }
+  50% { filter: brightness(1.4) drop-shadow(0 0 10px #5cc8ff); }
+  100% { filter: brightness(0.6); }
+}
+
+/* HEADER MODERNE CENTRÉ */
+.app-header {
+  position: relative;
+  height: 70px;
+  padding: 0 24px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(
+    to bottom,
+    rgba(10, 25, 50, 0.92),
+    rgba(5, 15, 35, 0.92)
+  );
+  border-bottom: 1px solid rgba(120, 180, 255, 0.3);
+  box-shadow: 0 8px 25px rgba(80, 140, 255, 0.15);
+  backdrop-filter: blur(10px);
+}
+
+/* Logo à gauche */
+.header-logo {
+  position: absolute;
+  left: 20px;
+
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+
+  filter: drop-shadow(0 0 4px rgba(120, 200, 255, 0.7));
+  transition: transform 0.25s ease;
+}
+
+.header-logo:hover {
+  transform: scale(1.1);
+}
+
+/* Titre centré */
+.header-title-centered {
+  font-size: 1.5rem;
+  color: #d6edff;
+  letter-spacing: 1px;
+  text-shadow: 
+    0 0 4px rgba(150, 200, 255, 0.7),
+    0 0 12px rgba(100, 160, 255, 0.4);
+  pointer-events: none; /* Pour ne pas bloquer le clic sur le logo */
+}
+/* FOOTER STYLE PREMIUM */
+
+.app-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  padding: 20px 40px;
+  background: rgba(10, 20, 45, 0.85);
+  border-top: 1px solid rgba(120, 180, 255, 0.4);
+
+  backdrop-filter: blur(12px);
+  color: #c7e9ff;
+
+  box-shadow: 0 -10px 25px rgba(80, 140, 255, 0.2);
+  animation: footerFade 1.2s ease-out;
+}
+
+@keyframes footerFade {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.footer-col {
+  flex: 1;
+  padding: 0 20px;
+}
+
+.footer-section-title {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #aee4ff;
+
+  text-shadow: 0 0 6px rgba(150, 200, 255, 0.7);
+}
+
+.footer-name {
+  margin: 4px 0;
+  color: #d6f1ff;
+}
+
+.leader-role {
+  color: #55ff99;
+  text-shadow: 0 0 6px #55ff99;
+}
+
+.footer-icon {
+  font-size: 2.2rem;
+  animation: pulseSoft 2.8s infinite ease-in-out;
+}
+
+@keyframes pulseSoft {
+  0%   { transform: scale(1); filter: drop-shadow(0 0 3px #87d2ff); }
+  50%  { transform: scale(1.15); filter: drop-shadow(0 0 9px #a7e8ff); }
+  100% { transform: scale(1); filter: drop-shadow(0 0 3px #87d2ff); }
+}
+
+.footer-box {
+  margin-top: 8px;
+  padding: 8px 14px;
+
+  background: rgba(40, 90, 150, 0.25);
+  border: 1px solid rgba(120, 180, 255, 0.4);
+  border-radius: 10px;
+
+  box-shadow: 0 0 10px rgba(100, 180, 255, 0.3);
+
+  font-size: 1rem;
+}
+
+.footer-title {
+  margin-top: 10px;
+  font-size: 0.95rem;
+  color: #9cd8ff;
+}
+
+.last-edit {
+  margin-top: 12px;
+  font-size: 0.85rem;
+  color: #c3e3ff;
+}
+
+/* === LIEN MAURITANIEN (JAUNE FLUO) === */
+
+.mauritanien-link {
+  margin-top: 12px;
+  display: inline-block;
+
+  color: #ffe066;
+  font-weight: bold;
+  font-size: 1rem;
+
+  text-shadow: 0 0 6px rgba(255, 255, 150, 0.9);
+  transition: 0.2s;
+
+  animation: yellowPulse 2s infinite ease-in-out;
+}
+
+.mauritanien-link:hover {
+  color: #fff6a3;
+  text-shadow: 0 0 14px #ffe066;
+  transform: scale(1.07);
+}
+
+@keyframes yellowPulse {
+  0%   { text-shadow: 0 0 6px #ffd84d; }
+  50%  { text-shadow: 0 0 14px #ffe066; }
+  100% { text-shadow: 0 0 6px #ffd84d; }
+}
+/* --- LIEN MAURITANIEN --- */
+.mauritania-link {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  text-align: center;
+  color: #facc15; /* jaune néon */
+  font-weight: bold;
+  animation: blink 1.4s infinite ease-in-out;
+}
+
+.mauritania-link a {
+  margin-left: 8px;
+  color: #ffe666;
+  text-decoration: underline;
+  font-weight: 900;
+  text-shadow: 0 0 6px rgba(255, 230, 102, 0.8);
+  transition: 0.2s;
+}
+
+.mauritania-link a:hover {
+  color: #fff799;
+  text-shadow: 0 0 12px rgba(255, 255, 180, 1);
+  transform: scale(1.05);
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.75; }
+}
+
+.mauritanie-link {
+  font-weight: bold;
+  color: #ffd700; /* jaune doré */
+  text-shadow: 0 0 6px #ffea00;
+  animation: pulseLink 1.7s infinite;
+}
+
+@keyframes pulseLink {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
